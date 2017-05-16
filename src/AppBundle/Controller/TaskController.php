@@ -32,7 +32,7 @@ class TaskController extends Controller
     /**
      * @Route("/filterlist", name="filterlist")
      */
-    public function filterlistAction(Request $request){
+    public function filterListAction(Request $request){
         $status = 0;
         if ($request->isXMLHttpRequest()) {
             $status = $request->request->get('status');
@@ -67,7 +67,7 @@ class TaskController extends Controller
     /**
      * @Route("/todolist", name="todolist")
      */
-    public function todolistAction(){
+    public function todoListAction(){
         $em = $this->getDoctrine()->getManager();
         $tasks = $em->getRepository('AppBundle:Task')->findAll();
 
@@ -94,7 +94,7 @@ class TaskController extends Controller
     /**
      * @Route("/addtask", name="addtask")
      */
-    public function addtaskAction(Request $request){
+    public function addTaskAction(Request $request){
 
         if ($request->isMethod('POST')) {
             if ($request->isXMLHttpRequest()) {
@@ -120,7 +120,7 @@ class TaskController extends Controller
     /**
      * @Route("/updatetask", name="updatetask")
      */
-    public function updatetaskAction(Request $request){
+    public function updateTaskAction(Request $request){
 
         if ($request->isMethod('POST')) {
             if ($request->isXMLHttpRequest()) {
@@ -160,7 +160,7 @@ class TaskController extends Controller
     /**
      * @Route("/deletetask", name="deletetask")
      */
-    public function deletetaskAction(Request $request){
+    public function deleteTaskAction(Request $request){
 
         if ($request->isMethod('POST')) {
 
