@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Todo Tasks List
+{% endblock %}
+
+{% block body %}
+
+    <section id="todoapp">
+        <header id="header">
+            <h1>todos</h1>
+            <input id="new-todo" placeholder="What needs to be done?" autofocus>
+        </header>
+
+        <span id="tasks_body">
+        </span>
+    </section>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+        function ajax_call(url,data){
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (data, dataType) {
+                    $("#tasks_body").html(data);
+                    //$("#todo-list").html(data);
+                    $("#main").hide().fadeIn('slow');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log('Error : ' + errorThrown);
+                }
+            });
+        }
+
+
+        function update_task(id, value){
+            console.log(" id = "+id +"value = "+value.checked);
+            if(value.checked){
+                status = 2; //completed
+            }else{
+                status = 1;//active
+            }
+            var data = { id : id , status : status};
+            ajax_call( "{{ path('updatetask') }}" ,data);
+        }
+
+        function delete_task(id){
+            var data = {  id : id};
+            ajax_call( "{{ path('deletetask') }}" ,data);
+        }
+
+        function listtasks(status){
+            var data = { status :status };
+            ajax_call( "{{ path('filterlist') }}" , data);
+        }
+
+        $(document).ready(function(){
+
+            ajax_call( "{{ path('todolist') }}" ,{ status : 0 } );
+
+            $('#new-todo').keypress(function (e) {
+                var key = e.which;
+                if(key == 13)  // the enter key code
+                {
+                    if($('#new-todo').val()!=""){
+                        var data = { task_name : $('#new-todo').val()};
+                        ajax_call( "{{ path('addtask') }}" ,data);
+                        $("#new-todo").val('');
+                    }
+
+                }
+            });
+
+        });
+
+    </script>
+{% endblock %}
